@@ -19,7 +19,7 @@ import AccountDetails from '../AccountDetails'
 import Modal from '../Modal'
 import Option from './Option'
 import PendingView from './PendingView'
-
+ 
 const CloseIcon = styled.div`
   position: absolute;
   right: 1rem;
@@ -32,7 +32,8 @@ const CloseIcon = styled.div`
 
 const CloseColor = styled(Close)`
   path {
-    stroke: ${({ theme }) => theme.text4};
+    stroke: ${({ theme }) => theme.text3};
+    color: #33333;
   }
 `
 
@@ -319,11 +320,11 @@ export default function WalletModal({
     }
     return (
       <UpperSection>
-        <CloseIcon onClick={toggleWalletModal}>
+        <CloseIcon onClick={toggleWalletModal} style={{ color: '#888D9B' }}>
           <CloseColor />
         </CloseIcon>
         {walletView !== WALLET_VIEWS.ACCOUNT ? (
-          <HeaderRow color="blue">
+          <HeaderRow color="blue" >
             <HoverText
               onClick={() => {
                 setPendingError(false)
@@ -335,7 +336,7 @@ export default function WalletModal({
           </HeaderRow>
         ) : (
           <HeaderRow>
-            <HoverText>Connect to a wallet</HoverText>
+            <HoverText style={{ color: '#888D9B' }}>Connect to a wallet</HoverText>
           </HeaderRow>
         )}
         <ContentWrapper>
@@ -351,7 +352,7 @@ export default function WalletModal({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to Ethereum? &nbsp;</span>{' '}
+              <span  style={{ color: 'rgb(255, 20, 40' }}>New to Ethereum? &nbsp;</span>{' '}
               <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
             </Blurb>
           )}
