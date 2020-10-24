@@ -27,7 +27,7 @@ import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 // import Swap from './Swap'
-// import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
+ import {RedirectPathToEarn} from './Earn/redirects'
 
 // import Vote from './Vote'
 // import VotePage from './Vote/VotePage'
@@ -82,6 +82,10 @@ function TopLevelModals() {
 // <Route exact strict path="/claim" component={OpenClaimAddressModalAndRedirectToSwap} />
 // <Route exact strict path="/vote/:id" component={VotePage} />
 // <Route exact strict path="/vote" component={Vote} />
+
+// <Route exact strict path="/xETH/ETH/0xaA19673aA1b483a5c4f73B446B4f851629a7e7D6" component={RedirectToStake} />
+// <Route component={RedirectPathToEarnOnly} />  
+//  <Route component={RedirectPathToEarn} /> 
 export default function App() {
   return (
     <Suspense fallback={null}>
@@ -97,10 +101,11 @@ export default function App() {
           <Polling />
           <TopLevelModals />
           <Web3ReactManager>
-            <Switch>             
+            <Switch>           
+              
+              <Route exact strict path="/xETH" component={Earn} />    
               <Route exact strict path="/find" component={PoolFinder} />
-              <Route exact strict path="/pool" component={Pool} />
-              <Route exact strict path="/xETH" component={Earn} />             
+              <Route exact strict path="/pool" component={Pool} />          
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
               <Route exact path="/add" component={AddLiquidity} />
               <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
@@ -114,6 +119,7 @@ export default function App() {
               <Route exact strict path="/migrate/v1" component={MigrateV1} />
               <Route exact strict path="/migrate/v1/:address" component={MigrateV1Exchange} />
               <Route exact strict path="/xETH/:currencyIdA/:currencyIdB" component={Manage} />  
+              <Route component={RedirectPathToEarn} />
             </Switch>
           </Web3ReactManager>
           <Marginer />

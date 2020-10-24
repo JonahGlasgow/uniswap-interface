@@ -318,7 +318,7 @@ export default function Header() {
           <StyledNavLink id={`stake-nav-link`} to={'/xETH'}>
             xETH LP Staking
           </StyledNavLink>
-          <StyledExternalLink id={`stake-nav-link`} href={'https://info.uniswap.org/pair/0xac0fe6c0b239eedcc12bc3e997e5492b04cc61c3'}>
+          <StyledExternalLink id={`info-nav-link`} href={'https://info.uniswap.org/pair/0xac0fe6c0b239eedcc12bc3e997e5492b04cc61c3'}>
             xETH Chart <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
         </HeaderLinks>

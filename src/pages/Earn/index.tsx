@@ -42,7 +42,7 @@ export default function Earn() {
   const stakingRewardsExist = Boolean(typeof chainId === 'number' && (STAKING_REWARDS_INFO[chainId]?.length ?? 0) > 0)
 
   return (
-    <PageWrapper gap="lg" justify="center">
+    <PageWrapper gap="lg" justify="center" id="earn-page">
       <TopSection gap="md">
         <DataCard>
           <CardBGImage />
@@ -59,7 +59,7 @@ export default function Earn() {
               </RowBetween>{' '}
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://uniswap.org/blog/uni/"
+                href="https://medium.com/@xethtoken"
                 target="_blank"
               >
                 <TYPE.white fontSize={14}>Read more about xETH</TYPE.white>
