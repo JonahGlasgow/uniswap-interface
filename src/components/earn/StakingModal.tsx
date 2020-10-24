@@ -197,8 +197,8 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
       {!attempting && !hash && (
         <ContentWrapper gap="lg">
           <RowBetween>
-            <TYPE.mediumHeader>Deposit</TYPE.mediumHeader>
-            <CloseIcon onClick={wrappedOnDismiss} />
+            <TYPE.mediumHeader style={{color: '#565A69'}}>Deposit</TYPE.mediumHeader>
+            <CloseIcon onClick={wrappedOnDismiss} style={{ color: '#565A69' }}/>
           </RowBetween>
           <CurrencyInputPanel
             value={typedValue}
@@ -215,10 +215,10 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
 
           <HypotheticalRewardRate dim={!hypotheticalRewardRate.greaterThan('0')}>
             <div>
-              <TYPE.black fontWeight={600}>Weekly Rewards</TYPE.black>
+              <TYPE.black style={{color: '#565A69'}} fontWeight={600}>Weekly Rewards</TYPE.black>
             </div>
 
-            <TYPE.black>
+            <TYPE.black style={{color: '#565A69'}} >
               {hypotheticalRewardRate.multiply((60 * 60 * 24 * 7).toString()).toSignificant(4, { groupSeparator: ',' })}{' '}
               xETH / week
             </TYPE.black>
@@ -247,16 +247,16 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>Depositing Liquidity</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>{parsedAmount?.toSignificant(4)} xETH-ETH</TYPE.body>
+            <TYPE.largeHeader style={{ color: '#565A69' }}>Depositing Liquidity</TYPE.largeHeader>
+            <TYPE.body fontSize={20} style={{ color: '#565A69' }}>{parsedAmount?.toSignificant(4)} xETH-ETH</TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}
       {attempting && hash && (
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>Transaction Submitted</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>Deposited {parsedAmount?.toSignificant(4)} xETH-ETH</TYPE.body>
+            <TYPE.largeHeader style={{ color: '#565A69' }}>Transaction Submitted</TYPE.largeHeader>
+            <TYPE.body fontSize={20} style={{ color: '#565A69' }}>Deposited {parsedAmount?.toSignificant(4)} xETH-ETH</TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

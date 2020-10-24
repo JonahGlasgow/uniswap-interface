@@ -71,27 +71,27 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
       {!attempting && !hash && (
         <ContentWrapper gap="lg">
           <RowBetween>
-            <TYPE.mediumHeader>Withdraw</TYPE.mediumHeader>
-            <CloseIcon onClick={wrappedOndismiss} />
+            <TYPE.mediumHeader style={{ color: '#565A69' }}>Withdraw</TYPE.mediumHeader>
+            <CloseIcon onClick={wrappedOndismiss} style={{ color: '#565A69' }} />
           </RowBetween>
           {stakingInfo?.stakedAmount && (
             <AutoColumn justify="center" gap="md">
-              <TYPE.body fontWeight={600} fontSize={36}>
+              <TYPE.body fontWeight={600} fontSize={36} style={{ color: '#565A69' }}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo.stakedAmount} />}
               </TYPE.body>
-              <TYPE.body>Deposited liquidity:</TYPE.body>
+              <TYPE.body style={{ color: '#565A69' }}>Deposited liquidity:</TYPE.body>
             </AutoColumn>
           )}
           {stakingInfo?.earnedAmount && (
             <AutoColumn justify="center" gap="md">
-              <TYPE.body fontWeight={600} fontSize={36}>
+              <TYPE.body fontWeight={600} fontSize={36}style={{ color: '#565A69' }}>
                 {<FormattedCurrencyAmount currencyAmount={stakingInfo?.earnedAmount} />}
               </TYPE.body>
-              <TYPE.body>Unclaimed UNI</TYPE.body>
+              <TYPE.body style={{ color: '#565A69' }}>Unclaimed xETH</TYPE.body>
             </AutoColumn>
           )}
-          <TYPE.subHeader style={{ textAlign: 'center' }}>
-            When you withdraw, your UNI is claimed and your liquidity is removed from the mining pool.
+          <TYPE.subHeader style={{ textAlign: 'center', color: '#565A69' }}> 
+            When you withdraw, your xETH is claimed and your liquidity is removed from the mining pool.
           </TYPE.subHeader>
           <ButtonError disabled={!!error} error={!!error && !!stakingInfo?.stakedAmount} onClick={onWithdraw}>
             {error ?? 'Withdraw & Claim'}
@@ -101,17 +101,17 @@ export default function UnstakingModal({ isOpen, onDismiss, stakingInfo }: Staki
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOndismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.body fontSize={20}>Withdrawing {stakingInfo?.stakedAmount?.toSignificant(4)} UNI-V2</TYPE.body>
-            <TYPE.body fontSize={20}>Claiming {stakingInfo?.earnedAmount?.toSignificant(4)} UNI</TYPE.body>
+            <TYPE.body fontSize={20}style={{ color: '#565A69' }}>Withdrawing {stakingInfo?.stakedAmount?.toSignificant(4)} UNI-V2</TYPE.body>
+            <TYPE.body fontSize={20} style={{ color: '#565A69' }}>Claiming {stakingInfo?.earnedAmount?.toSignificant(4)} xETH</TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}
       {hash && (
         <SubmittedView onDismiss={wrappedOndismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.largeHeader>Transaction Submitted</TYPE.largeHeader>
-            <TYPE.body fontSize={20}>Withdrew UNI-V2!</TYPE.body>
-            <TYPE.body fontSize={20}>Claimed UNI!</TYPE.body>
+            <TYPE.largeHeader style={{ color: '#565A69' }}>Transaction Submitted</TYPE.largeHeader>
+            <TYPE.body fontSize={20}style={{ color: '#565A69' }}>Withdrew UNI-V2!</TYPE.body>
+            <TYPE.body fontSize={20}style={{ color: '#565A69' }}>Claimed xETH!</TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

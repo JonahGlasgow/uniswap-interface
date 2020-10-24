@@ -295,7 +295,7 @@ export default function AccountDetails({
         <CloseIcon onClick={toggleWalletModal}>
           <CloseColor />
         </CloseIcon>
-        <HeaderRow>Account</HeaderRow>
+        <HeaderRow style={{color: '#565A69'}} >Account</HeaderRow>
         <AccountSection>
           <YourAccount>
             <InfoCard>
@@ -304,7 +304,7 @@ export default function AccountDetails({
                 <div>
                   {connector !== injected && connector !== walletlink && (
                     <WalletAction
-                      style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px' }}
+                      style={{ fontSize: '.825rem', fontWeight: 400, marginRight: '8px', color: '#565A69' }}
                       onClick={() => {
                         ;(connector as any).close()
                       }}
@@ -375,6 +375,7 @@ export default function AccountDetails({
                         )}
                         {chainId && account && (
                           <AddressLink
+                            style={{color: '#565A69'}}
                             hasENS={!!ENSName}
                             isENS={false}
                             href={getEtherscanLink(chainId, account, 'address')}
@@ -395,7 +396,7 @@ export default function AccountDetails({
       {!!pendingTransactions.length || !!confirmedTransactions.length ? (
         <LowerSection>
           <AutoRow mb={'1rem'} style={{ justifyContent: 'space-between' }}>
-            <TYPE.body>Recent Transactions</TYPE.body>
+            <TYPE.body style={{color: '#565A69'}} >Recent Transactions</TYPE.body>
             <LinkStyledButton onClick={clearAllTransactionsCallback}>(clear all)</LinkStyledButton>
           </AutoRow>
           {renderTransactions(pendingTransactions)}

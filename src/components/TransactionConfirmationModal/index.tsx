@@ -76,13 +76,13 @@ function TransactionSubmittedContent({
       <Section>
         <RowBetween>
           <div />
-          <CloseIcon onClick={onDismiss} />
+          <CloseIcon onClick={onDismiss} style={{ color: '#565A69' }} />
         </RowBetween>
         <ConfirmedIcon>
           <ArrowUpCircle strokeWidth={0.5} size={90} color={theme.primary1} />
         </ConfirmedIcon>
         <AutoColumn gap="12px" justify={'center'}>
-          <Text fontWeight={500} fontSize={20}>
+          <Text fontWeight={500} fontSize={20} style={{ color: '#565A69' }}>
             Transaction Submitted
           </Text>
           {chainId && hash && (
@@ -93,7 +93,7 @@ function TransactionSubmittedContent({
             </ExternalLink>
           )}
           <ButtonPrimary onClick={onDismiss} style={{ margin: '20px 0 0 0' }}>
-            <Text fontWeight={500} fontSize={20}>
+            <Text fontWeight={500} fontSize={20} style={{ color: '#565A69' }}>
               Close
             </Text>
           </ButtonPrimary>
