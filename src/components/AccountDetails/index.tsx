@@ -323,7 +323,7 @@ export default function AccountDetails({
                 </div>
               </AccountGroupingRow>
               <AccountGroupingRow id="web3-account-identifier-row">
-                <AccountControl>
+                <AccountControl style={{ color: '#565A69' }}>
                   {ENSName ? (
                     <>
                       <div>
@@ -390,7 +390,7 @@ export default function AccountDetails({
                 )}
               </AccountGroupingRow>
             </InfoCard>
-          </YourAccount>
+          </YourAccount >
         </AccountSection>
       </UpperSection>
       {!!pendingTransactions.length || !!confirmedTransactions.length ? (
@@ -404,7 +404,7 @@ export default function AccountDetails({
         </LowerSection>
       ) : (
         <LowerSection>
-          <TYPE.body color={theme.text1}>Your transactions will appear here...</TYPE.body>
+          <TYPE.body color={theme.text3}>Your transactions will appear here...</TYPE.body>
         </LowerSection>
       )}
     </>

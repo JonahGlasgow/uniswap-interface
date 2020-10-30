@@ -19,6 +19,7 @@ const PendingSection = styled.div`
 
 const StyledLoader = styled(Loader)`
   margin-right: 1rem;
+  color: #565A69;
 `
 
 const LoadingMessage = styled.div<{ error?: boolean }>`
@@ -94,7 +95,7 @@ export default function PendingView({
             </ErrorGroup>
           ) : (
             <>
-              <StyledLoader />
+              <StyledLoader color='#565A69'/>
               Initializing...
             </>
           )}

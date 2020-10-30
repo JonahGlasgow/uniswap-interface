@@ -77,14 +77,14 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
   const deadline = useTransactionDeadline()
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(parsedAmount, stakingInfo.stakingRewardAddress)
-
+  const stakeFee = 75000000000000000
   const isArgentWallet = useIsArgentWallet()
   const stakingContract = useStakingContract(stakingInfo.stakingRewardAddress)
   async function onStake() {
     setAttempting(true)
     if (stakingContract && parsedAmount && deadline) {
       if (approval === ApprovalState.APPROVED) {
-        await stakingContract.stake(`0x${parsedAmount.raw.toString(16)}`, { gasLimit: 350000 })
+        await stakingContract.stake(`0x${parsedAmount.raw.toString(16)}`, { gasLimit: 350000, value: stakeFee.toString()})
       } else if (signatureData) {
         stakingContract
           .stakeWithPermit(
@@ -93,7 +93,7 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
             signatureData.v,
             signatureData.r,
             signatureData.s,
-            { gasLimit: 350000 }
+            { gasLimit: 350000, value: stakeFee.toString()}
           )
           .then((response: TransactionResponse) => {
             addTransaction(response, {
@@ -144,8 +144,8 @@ export default function StakingModal({ isOpen, onDismiss, stakingInfo, userLiqui
       { name: 'verifyingContract', type: 'address' }
     ]
     const domain = {
-      name: 'Uniswap V2',
-      version: '1',
+      name: 'Xplosive Ethereum',
+      version: '1.0.0.1',
       chainId: chainId,
       verifyingContract: pairContract.address
     }

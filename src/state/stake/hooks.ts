@@ -7,7 +7,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
 
-export const STAKING_GENESIS = 1603195200
+export const STAKING_GENESIS = 1603885556
 
 export const REWARDS_DURATION_DAYS = 60
 
@@ -39,12 +39,15 @@ export const STAKING_REWARDS_INFO: {
   [ChainId.MAINNET]: [
     {
       tokens: [WETH[ChainId.MAINNET], XETH],
-      stakingRewardAddress: '0xc6d1a49ca29c70f555559635aedd9687ade0e7ed'
+      stakingRewardAddress: '0x9Bcdd2A03a01933aCD2234aD7e305354cFD637AD',
     }
   ]
 }
 
+const StakingCollectionAddress = '0x27F976C479e00428BCFe33B40a9EE818917D4256'
+
 export interface StakingInfo {
+  stakingCollectionAddress: string
   // the address of the reward contract
   stakingRewardAddress: string
   // the tokens involved in this pair
@@ -180,6 +183,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
         const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
 
         memo.push({
+          stakingCollectionAddress: StakingCollectionAddress,
           stakingRewardAddress: rewardsAddress,
           tokens: info[index].tokens,
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
