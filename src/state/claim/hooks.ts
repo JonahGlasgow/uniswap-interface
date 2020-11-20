@@ -1,4 +1,4 @@
-import { xETH } from './../../constants/index'
+import { Com } from './../../constants/index'
 import { TokenAmount, JSBI, ChainId } from '@uniswap/sdk'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useEffect, useState } from 'react'
@@ -80,12 +80,12 @@ export function useUserUnclaimedAmount(account: string | null | undefined): Toke
   const userClaimData = useUserClaimData(account)
   const canClaim = useUserHasAvailableClaim(account)
 
-  const xeth = chainId ? xETH[chainId] : undefined
-  if (!xeth) return undefined
+  const com = chainId ? Com[chainId] : undefined
+  if (!com) return undefined
   if (!canClaim || !userClaimData) {
-    return new TokenAmount(xeth, JSBI.BigInt(0))
+    return new TokenAmount(com, JSBI.BigInt(0))
   }
-  return new TokenAmount(xeth, JSBI.BigInt(userClaimData.amount))
+  return new TokenAmount(com, JSBI.BigInt(userClaimData.amount))
 }
 
 export function useClaimCallback(
@@ -112,7 +112,7 @@ export function useClaimCallback(
         .claim(...args, { value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
         .then((response: TransactionResponse) => {
           addTransaction(response, {
-            summary: `Claimed ${unClaimedAmount?.toSignificant(4)} xETH`,
+            summary: `Claimed ${unClaimedAmount?.toSignificant(4)} COM`,
             claim: { recipient: account }
           })
           return response.hash

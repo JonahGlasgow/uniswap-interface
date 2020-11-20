@@ -14,7 +14,7 @@ import { useAllProposalData, ProposalData, useUserVotes, useUserDelegatee } from
 import DelegateModal from '../../components/vote/DelegateModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
-import { xETH, ZERO_ADDRESS } from '../../constants'
+import { Com, ZERO_ADDRESS } from '../../constants'
 import { JSBI, TokenAmount, ChainId } from '@uniswap/sdk'
 import { shortenAddress, getEtherscanLink } from '../../utils'
 import Loader from '../../components/Loader'
@@ -60,7 +60,7 @@ const ProposalTitle = styled.span`
 `
 
 const VoteCard = styled(DataCard)`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
+  background:linear-gradient(to bottom, rgba(202,76,191,1) 0%,rgba(133,43,191,1) 100%);
   overflow: hidden;
 `
 
@@ -114,7 +114,7 @@ export default function Vote() {
 
   // user data
   const availableVotes: TokenAmount | undefined = useUserVotes()
-  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, chainId ? xETH[chainId] : undefined)
+  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, chainId ? Com[chainId] : undefined)
   const userDelegatee: string | undefined = useUserDelegatee()
 
   // show delegation option if they have have a balance, but have not delegated

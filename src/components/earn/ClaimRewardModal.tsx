@@ -46,7 +46,7 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
         .getReward({ gasLimit: 350000 })
         .then((response: TransactionResponse) => {
           addTransaction(response, {
-            summary: `Claim accumulated xETH rewards`
+            summary: `Claim accumulated $COM rewards`
           })
           setHash(response.hash)
         })
@@ -78,7 +78,7 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
               <TYPE.body fontWeight={600} fontSize={36} style={{ color: '#565A69' }}>
                 {stakingInfo?.earnedAmount?.toSignificant(6)}
               </TYPE.body>
-              <TYPE.body style={{ color: '#565A69' }}>Unclaimed xETH</TYPE.body>
+              <TYPE.body style={{ color: '#565A69' }}>Unclaimed $COM</TYPE.body>
             </AutoColumn>
           )}
           <TYPE.subHeader style={{ textAlign: 'center',  color: '#565A69' }} >
@@ -92,7 +92,7 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
       {attempting && !hash && (
         <LoadingView onDismiss={wrappedOnDismiss}>
           <AutoColumn gap="12px" justify={'center'}>
-            <TYPE.body fontSize={20} style={{ color: '#565A69' }}>Claiming {stakingInfo?.earnedAmount?.toSignificant(6)} xETH</TYPE.body>
+            <TYPE.body fontSize={20} style={{ color: '#565A69' }}>Claiming {stakingInfo?.earnedAmount?.toSignificant(6)} $COM</TYPE.body>
           </AutoColumn>
         </LoadingView>
       )}
@@ -100,7 +100,7 @@ export default function ClaimRewardModal({ isOpen, onDismiss, stakingInfo }: Sta
         <SubmittedView onDismiss={wrappedOnDismiss} hash={hash}>
           <AutoColumn gap="12px" justify={'center'}>
             <TYPE.largeHeader style={{ color: '#565A69' }}>Transaction Submitted</TYPE.largeHeader>
-            <TYPE.body fontSize={20} style={{ color: '#565A69' }}>Claimed xETH!</TYPE.body>
+            <TYPE.body fontSize={20} style={{ color: '#565A69' }}>Claimed $COM!</TYPE.body>
           </AutoColumn>
         </SubmittedView>
       )}

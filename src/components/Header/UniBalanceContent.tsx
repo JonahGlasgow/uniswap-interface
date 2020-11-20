@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { X } from 'react-feather'
 import styled from 'styled-components'
 import tokenLogo from '../../assets/images/token-logo.png'
-import { xETH } from '../../constants'
+import { Com } from '../../constants'
 import { useTotalSupply } from '../../data/TotalSupply'
 import { useActiveWeb3React } from '../../hooks'
 import { useMerkleDistributorContract } from '../../hooks/useContract'
@@ -23,7 +23,7 @@ const ContentWrapper = styled(AutoColumn)`
 
 const ModalUpper = styled(DataCard)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #021d43 100%);
+  background:linear-gradient(to bottom, rgba(202,76,191,1) 0%,rgba(133,43,191,1) 100%);
   padding: 0.5rem;
 `
 
@@ -42,22 +42,22 @@ const StyledClose = styled(X)`
  */
 export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowUniBalanceModal: any }) {
   const { account, chainId } = useActiveWeb3React()
-  const xeth = chainId ? xETH[chainId] : undefined
+  const com = chainId ? Com[chainId] : undefined
 
   const total = useAggregateUniBalance()
-  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, xeth)
+  const uniBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, com)
   const uniToClaim: TokenAmount | undefined = useTotalUniEarned()
 
-  const totalSupply: TokenAmount | undefined = useTotalSupply(xeth)
-  const uniPrice = useUSDCPrice(xeth)
+  const totalSupply: TokenAmount | undefined = useTotalSupply(com)
+  const uniPrice = useUSDCPrice(com)
   const blockTimestamp = useCurrentBlockTimestamp()
-  const unclaimedUni = useTokenBalance(useMerkleDistributorContract()?.address, xeth)
+  const unclaimedUni = useTokenBalance(useMerkleDistributorContract()?.address, com)
   const circulation: TokenAmount | undefined = useMemo(
     () =>
-      blockTimestamp && xeth && chainId === ChainId.MAINNET
-        ? computeUniCirculation(xeth, blockTimestamp, unclaimedUni)
+      blockTimestamp && com && chainId === ChainId.MAINNET
+        ? computeUniCirculation(com, blockTimestamp, unclaimedUni)
         : totalSupply,
-    [blockTimestamp, chainId, totalSupply, unclaimedUni, xeth]
+    [blockTimestamp, chainId, totalSupply, unclaimedUni, com]
   )
 
   return (
@@ -67,7 +67,7 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
         <CardNoise />
         <CardSection gap="md">
           <RowBetween>
-            <TYPE.white color="white">Your xETH Breakdown</TYPE.white>
+            <TYPE.white color="white">Your COM Breakdown</TYPE.white>
             <StyledClose stroke="white" onClick={() => setShowUniBalanceModal(false)} />
           </RowBetween>
         </CardSection>
@@ -91,7 +91,7 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
                   <TYPE.white color="white">
                     {uniToClaim?.toFixed(4, { groupSeparator: ',' })}{' '}
                     {uniToClaim && uniToClaim.greaterThan('0') && (
-                      <StyledInternalLink onClick={() => setShowUniBalanceModal(false)} to="/xETH">
+                      <StyledInternalLink onClick={() => setShowUniBalanceModal(false)} to="/COM">
                         (claim)
                       </StyledInternalLink>
                     )}
@@ -105,19 +105,19 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
         <CardSection gap="sm">
           <AutoColumn gap="md">
             <RowBetween>
-              <TYPE.white color="white">xETH price:</TYPE.white>
+              <TYPE.white color="white">COM price:</TYPE.white>
               <TYPE.white color="white">${uniPrice?.toFixed(2) ?? '-'}</TYPE.white>
             </RowBetween>
             <RowBetween>
-              <TYPE.white color="white">xETH in circulation:</TYPE.white>
+              <TYPE.white color="white">COM in circulation:</TYPE.white>
               <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
             </RowBetween>
             <RowBetween>
               <TYPE.white color="white">Total Supply</TYPE.white>
               <TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
             </RowBetween>
-            {xeth && xeth.chainId === ChainId.MAINNET ? (
-              <ExternalLink href={`https://uniswap.info/token/${xeth.address}`}>View xETH Analytics</ExternalLink>
+            {com && com.chainId === ChainId.MAINNET ? (
+              <ExternalLink href={`https://uniswap.info/token/${com.address}`}>View COM Analytics</ExternalLink>
             ) : null}
           </AutoColumn>
         </CardSection>

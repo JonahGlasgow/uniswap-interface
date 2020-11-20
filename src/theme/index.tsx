@@ -9,7 +9,8 @@ import styled, {
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
 import { Colors } from './styled'
-import xETHBackground from '../assets/images/xETH-bg.png'
+//import xETHBackground from '../assets/images/xETH-bg.png'
+import COMBackground from '../assets/images/COM-bg.png'
 
 export * from './components'
 
@@ -44,34 +45,34 @@ export function colors(darkMode: boolean): Colors {
     // text
     text1: darkMode ? '#FFFFFF' : '#FFFFFF',
     text2: darkMode ? '#C3C5CB' : '#565A69',
-    text3: darkMode ? '#6C7284' : '#888D9B',
+    text3: darkMode ? '#6C7284' : 'rgba(133,43,191,1)',
     text4: darkMode ? '#565A69' : '#C3C5CB',
     text5: darkMode ? '#2C2F36' : '#EDEEF2',
 
     // backgrounds / greys
-    bg1: darkMode ? `url(${xETHBackground })` : `url(${xETHBackground })`,
+    bg1: darkMode ? `url(${COMBackground})` : `url(${COMBackground})`, 
     bg2: darkMode ? '#2C2F36' : '#F7F8FA',
     bg3: darkMode ? '#40444F' : '#EDEEF2',
     bg4: darkMode ? '#565A69' : '#CED0D9',
-    bg5: darkMode ? '#6C7284' : '#888D9B',
+    bg5: darkMode ? '#6C7284' : 'rgba(133,43,191,1)',
  
     //specialty colors
     modalBG: darkMode ? 'rgba(0,0,0,.425)' : 'rgba(0,0,0,0.3)',
     advancedBG: darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.6)',
  
     //primary colors
-    primary1: darkMode ? '#2172E5' : 'rgb(255, 20, 40)',
-    primary2: darkMode ? '#3680E7' : '#FF8CC3',
-    primary3: darkMode ? '#4D8FEA' : '#FF99C9',
-    primary4: darkMode ? '#376bad70' : 'rgb(255, 20, 40)',
+    primary1: darkMode ? '#2172E5' : 'rgba(133,43,191,1)',
+    primary2: darkMode ? '#3680E7' : '#c679fc',
+    primary3: darkMode ? '#4D8FEA' : '#c679fc',
+    primary4: darkMode ? '#376bad70' : 'rgba(133,43,191,1)',
     primary5: darkMode ? '#153d6f70' : 'transparent',
 
     // color text
-    primaryText1: darkMode ? '#6da8ff' : 'rgb(255, 20, 40)',
+    primaryText1: darkMode ? '#6da8ff' : 'rgba(133,43,191,1)',
 
     // secondary colors
-    secondary1: darkMode ? '#2172E5' : 'rgb(255, 20, 40)',
-    secondary2: darkMode ? '#17000b26' : 'rgb(255, 20, 40)',
+    secondary1: darkMode ? '#2172E5' : 'rgba(133,43,191,1)',
+    secondary2: darkMode ? '#17000b26' : 'rgba(133,43,191,1)',
     secondary3: darkMode ? '#17000b26' : '#FFFFFF',
 
     // other

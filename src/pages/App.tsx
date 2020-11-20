@@ -104,7 +104,7 @@ export default function App() {
           <Web3ReactManager>
             <Switch>           
               
-              <Route exact strict path="/xETH" component={Earn} />    
+              <Route exact strict path="/COM" component={Earn} />    
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />          
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
@@ -119,7 +119,7 @@ export default function App() {
               <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
               <Route exact strict path="/migrate/v1" component={MigrateV1} />
               <Route exact strict path="/migrate/v1/:address" component={MigrateV1Exchange} />
-              <Route exact strict path="/xETH/:currencyIdA/:currencyIdB" component={Manage} />  
+              <Route exact strict path="/COM/:currencyIdA" component={Manage} />  
               <Route component={RedirectPathToEarn} />
             </Switch>
           </Web3ReactManager>
@@ -129,3 +129,4 @@ export default function App() {
     </Suspense>
   )
 }
+// Note for staking single tokens and not lp pairs use currencyIDA = ERC20 Token

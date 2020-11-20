@@ -11,7 +11,8 @@ export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]
 }
-export const XETH = new Token(ChainId.MAINNET, '0xaA19673aA1b483a5c4f73B446B4f851629a7e7D6', 18, 'xETH', 'Xplosive Ethereum')
+export const COM = new Token(ChainId.MAINNET, '0x1B4052d98fb1888C2Bf3B8d3b930e0aFf8A910dF', 18, 'COM', 'Community Token')
+//export const XETH = new Token(ChainId.MAINNET, '0xaA19673aA1b483a5c4f73B446B4f851629a7e7D6', 18, 'xETH', 'Xplosive Ethereum')
 export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
 export const USDC = new Token(ChainId.MAINNET, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 6, 'USDC', 'USD//C')
 export const USDT = new Token(ChainId.MAINNET, '0xdAC17F958D2ee523a2206206994597C13D831ec7', 6, 'USDT', 'Tether USD')
@@ -29,18 +30,18 @@ export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F'
 
 export const TIMELOCK_ADDRESS = '0x1a9C8182C09F50C8318d769245beA52c32BE35BC'
 
-//changed to xeth
-const UNI_ADDRESS = '0xaA19673aA1b483a5c4f73B446B4f851629a7e7D6'
-export const xETH: { [chainId in ChainId]: Token } = {
-  [ChainId.MAINNET]: new Token(ChainId.MAINNET, UNI_ADDRESS, 18, 'xETH', 'Xplosive Ethereum'),
-  [ChainId.RINKEBY]: new Token(ChainId.RINKEBY, UNI_ADDRESS, 18, 'xETH', 'Xplosive Ethereum'),
-  [ChainId.ROPSTEN]: new Token(ChainId.ROPSTEN, UNI_ADDRESS, 18, 'xETH', 'Xplosive Ethereum'),
-  [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, UNI_ADDRESS, 18, 'xETH', 'Xplosive Ethereum'),
-  [ChainId.KOVAN]: new Token(ChainId.KOVAN, UNI_ADDRESS, 18, 'xETH', 'Xplosive Ethereum')
+//changed to com
+const UNI_ADDRESS = '0x1B4052d98fb1888C2Bf3B8d3b930e0aFf8A910dF'
+export const Com: { [chainId in ChainId]: Token } = {
+  [ChainId.MAINNET]: new Token(ChainId.MAINNET, UNI_ADDRESS, 18, 'COM', 'Community Token'),
+  [ChainId.RINKEBY]: new Token(ChainId.RINKEBY, UNI_ADDRESS, 18, 'COM', 'Community Token'),
+  [ChainId.ROPSTEN]: new Token(ChainId.ROPSTEN, UNI_ADDRESS, 18, 'COM', 'Community Token'),
+  [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, UNI_ADDRESS, 18, 'COM', 'Community Token'),
+  [ChainId.KOVAN]: new Token(ChainId.KOVAN, UNI_ADDRESS, 18, 'COM', 'Community Token')
 }
 
 export const COMMON_CONTRACT_NAMES: { [address: string]: string } = {
-  [UNI_ADDRESS]: 'xETH',
+  [UNI_ADDRESS]: 'COM',
   [GOVERNANCE_ADDRESS]: 'Governance',
   [TIMELOCK_ADDRESS]: 'Timelock'
 }
@@ -61,7 +62,7 @@ const WETH_ONLY: ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], XETH]
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], COM]
 }
 
 /**
@@ -77,13 +78,13 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], XETH]
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], COM]
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], XETH]
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], COM]
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {

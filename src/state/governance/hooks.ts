@@ -1,4 +1,4 @@
-import { xETH } from './../../constants/index'
+import { Com } from './../../constants/index'
 import { TokenAmount } from '@uniswap/sdk'
 import { isAddress } from 'ethers/lib/utils'
 import { useGovernanceContract, useUniContract } from '../../hooks/useContract'
@@ -159,9 +159,9 @@ export function useUserVotes(): TokenAmount | undefined {
   const uniContract = useUniContract()
 
   // check for available votes
-  const xeth = chainId ? xETH[chainId] : undefined
+  const com = chainId ? Com[chainId] : undefined
   const votes = useSingleCallResult(uniContract, 'getCurrentVotes', [account ?? undefined])?.result?.[0]
-  return votes && xeth ? new TokenAmount(xeth, votes) : undefined
+  return votes && com ? new TokenAmount(com, votes) : undefined
 }
 
 // fetch available votes as of block (usually proposal start block)
@@ -170,10 +170,10 @@ export function useUserVotesAsOfBlock(block: number | undefined): TokenAmount | 
   const uniContract = useUniContract()
 
   // check for available votes
-  const xeth = chainId ? xETH[chainId] : undefined
+  const com = chainId ? Com[chainId] : undefined
   const votes = useSingleCallResult(uniContract, 'getPriorVotes', [account ?? undefined, block ?? undefined])
     ?.result?.[0]
-  return votes && xeth ? new TokenAmount(xeth, votes) : undefined
+  return votes && com ? new TokenAmount(com, votes) : undefined
 }
 
 export function useDelegateCallback(): (delegatee: string | undefined) => undefined | Promise<string> {
@@ -186,7 +186,7 @@ export function useDelegateCallback(): (delegatee: string | undefined) => undefi
     (delegatee: string | undefined) => {
       if (!library || !chainId || !account || !isAddress(delegatee ?? '')) return undefined
       const args = [delegatee]
-      if (!uniContract) throw new Error('No xETH Contract!')
+      if (!uniContract) throw new Error('No Com Contract!')
       return uniContract.estimateGas.delegate(...args, {}).then(estimatedGasLimit => {
         return uniContract
           .delegate(...args, { value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })

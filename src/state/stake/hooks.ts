@@ -1,13 +1,14 @@
-import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WETH, Pair } from '@uniswap/sdk'
+// WETH
+import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, Pair } from '@uniswap/sdk'
 import { useMemo } from 'react'
 // default list DAI, UNI, USDC, USDT, WBTC
-import { XETH, xETH} from '../../constants'
+import {  Com} from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
 
-export const STAKING_GENESIS = 1603885556
+export const STAKING_GENESIS = 1605475994
 
 export const REWARDS_DURATION_DAYS = 60
 
@@ -32,14 +33,22 @@ export const REWARDS_DURATION_DAYS = 60
  */
 export const STAKING_REWARDS_INFO: {
   [chainId in ChainId]?: {
-    tokens: [Token, Token]
+    tokens: [Token]
     stakingRewardAddress: string
   }[]
 } = {
   [ChainId.MAINNET]: [
     {
-      tokens: [WETH[ChainId.MAINNET], XETH],
-      stakingRewardAddress: '0x9Bcdd2A03a01933aCD2234aD7e305354cFD637AD',
+      tokens: [Com[ChainId.MAINNET]],
+      stakingRewardAddress: '0x30dC4a59892b22eF32F78fBAF1c67576509cDC4C',
+    },
+    {
+      tokens: [Com[ChainId.MAINNET]],
+      stakingRewardAddress: '0x04D4976ebf104dCB541544bF9F1108BCD67D87fd'
+    },
+    {
+      tokens: [Com[ChainId.MAINNET]],
+      stakingRewardAddress: '0xbB687EC3e1EfD71c58164147899DFEa54c9dAb6e'
     }
   ]
 }
@@ -51,7 +60,9 @@ export interface StakingInfo {
   // the address of the reward contract
   stakingRewardAddress: string
   // the tokens involved in this pair
-  tokens: [Token, Token]
+  tokens: [Token]
+  // the token involved in this stake 
+  //token: [Token]
   // the amount of token currently staked, or undefined if no account
   stakedAmount: TokenAmount
   // the amount of reward token earned by the active account, or undefined if no account
@@ -84,15 +95,16 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
             pairToFilterBy === undefined
               ? true
               : pairToFilterBy === null
-              ? false
-              : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) &&
-                pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
+              ? true
+              : pairToFilterBy.involvesToken(stakingRewardInfo.tokens[0]) 
+              // &&
+              // pairToFilterBy.involvesToken(stakingRewardInfo.tokens[1])
           ) ?? []
         : [],
     [chainId, pairToFilterBy]
   )
 
-  const xeth = chainId ? xETH[chainId] : undefined
+  const com = chainId ? Com[chainId] : undefined
 
   const rewardsAddresses = useMemo(() => info.map(({ stakingRewardAddress }) => stakingRewardAddress), [info])
 
@@ -120,7 +132,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
   )
 
   return useMemo(() => {
-    if (!chainId || !xeth) return []
+    if (!chainId || !com) return []
 
     return rewardsAddresses.reduce<StakingInfo[]>((memo, rewardsAddress, index) => {
       // these two are dependent on account
@@ -156,14 +168,15 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
         }
 
         // get the LP token
-        const tokens = info[index].tokens
-        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
+        //const tokens = info[index].tokens
+        //const dummyPair = new TokenAmount(com, '0')
+        
 
         // check for account, if no account set to 0
 
-        const stakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
-        const totalStakedAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(totalSupplyState.result?.[0]))
-        const totalRewardRate = new TokenAmount(xeth, JSBI.BigInt(rewardRateState.result?.[0]))
+        const stakedAmount = new TokenAmount(com, JSBI.BigInt(balanceState?.result?.[0] ?? 0))
+        const totalStakedAmount = new TokenAmount(com, JSBI.BigInt(totalSupplyState.result?.[0]))
+        const totalRewardRate = new TokenAmount(com, JSBI.BigInt(rewardRateState.result?.[0]))
 
         const getHypotheticalRewardRate = (
           stakedAmount: TokenAmount,
@@ -171,7 +184,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           totalRewardRate: TokenAmount
         ): TokenAmount => {
           return new TokenAmount(
-            xeth,
+            com,
             JSBI.greaterThan(totalStakedAmount.raw, JSBI.BigInt(0))
               ? JSBI.divide(JSBI.multiply(totalRewardRate.raw, stakedAmount.raw), totalStakedAmount.raw)
               : JSBI.BigInt(0)
@@ -187,7 +200,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           stakingRewardAddress: rewardsAddress,
           tokens: info[index].tokens,
           periodFinish: periodFinishMs > 0 ? new Date(periodFinishMs) : undefined,
-          earnedAmount: new TokenAmount(xeth, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
+          earnedAmount: new TokenAmount(com, JSBI.BigInt(earnedAmountState?.result?.[0] ?? 0)),
           rewardRate: individualRewardRate,
           totalRewardRate: totalRewardRate,
           stakedAmount: stakedAmount,
@@ -197,23 +210,23 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
       }
       return memo
     }, [])
-  }, [balances, chainId, earnedAmounts, info, periodFinishes, rewardRates, rewardsAddresses, totalSupplies, xeth])
+  }, [balances, chainId, earnedAmounts, info, periodFinishes, rewardRates, rewardsAddresses, totalSupplies, com])
 }
 
 export function useTotalUniEarned(): TokenAmount | undefined {
   const { chainId } = useActiveWeb3React()
-  const xeth = chainId ? xETH[chainId] : undefined
+  const com = chainId ? Com[chainId] : undefined
   const stakingInfos = useStakingInfo()
 
   return useMemo(() => {
-    if (!xeth) return undefined
+    if (!com) return undefined
     return (
       stakingInfos?.reduce(
         (accumulator, stakingInfo) => accumulator.add(stakingInfo.earnedAmount),
-        new TokenAmount(xeth, '0')
-      ) ?? new TokenAmount(xeth, '0')
+        new TokenAmount(com, '0')
+      ) ?? new TokenAmount(com, '0')
     )
-  }, [stakingInfos, xeth])
+  }, [stakingInfos, com])
 }
 
 // based on typed value

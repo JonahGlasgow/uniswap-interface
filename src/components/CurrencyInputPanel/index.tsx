@@ -1,4 +1,6 @@
-import { Currency, Pair } from '@uniswap/sdk'
+// Pair tokenStake 
+import { Currency } from '@uniswap/sdk'
+import { Pair } from '@uniswap/sdk/dist/entities/pair'
 import React, { useState, useContext, useCallback } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { darken } from 'polished'
@@ -124,7 +126,7 @@ interface CurrencyInputPanelProps {
   currency?: Currency | null
   disableCurrencySelect?: boolean
   hideBalance?: boolean
-  pair?: Pair | null
+  pair?: Pair["token0"] | null
   hideInput?: boolean
   otherCurrency?: Currency | null
   id: string
@@ -211,13 +213,13 @@ export default function CurrencyInputPanel({
           >
             <Aligner>
               {pair ? (
-                <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={24} margin={true} />
+                <DoubleCurrencyLogo currency0={pair} size={24} margin={true} />
               ) : currency ? (
                 <CurrencyLogo currency={currency} size={'24px'} />
               ) : null}
               {pair ? (
                 <StyledTokenName className="pair-name-container">
-                  {pair?.token0.symbol}:{pair?.token1.symbol}
+                  {pair?.symbol}
                 </StyledTokenName>
               ) : (
                 <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>

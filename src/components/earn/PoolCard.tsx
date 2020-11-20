@@ -12,7 +12,7 @@ import { currencyId } from '../../utils/currencyId'
 import { Break, CardNoise, CardBGImage } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { usePair } from '../../data/Reserves'
+import { useSinglePair } from '../../data/Reserves'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 
 const StatContainer = styled.div`
@@ -34,8 +34,7 @@ const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
   overflow: hidden;
   position: relative;
   opacity: ${({ showBackground }) => (showBackground ? '1' : '1')};
-  background: ${({ theme, bgColor, showBackground }) =>
-    `radial-gradient(91.85% 100% at 1.84% 0%, ${bgColor} 0%, ${showBackground ? theme.black : theme.bg5} 100%) `};
+  background:linear-gradient(to bottom, rgba(202,76,191,1) 0%,rgba(133,43,191,1) 100%);
   color: ${({ theme, showBackground }) => (showBackground ? theme.white : theme.text1)} !important;
 
   ${({ showBackground }) =>
@@ -74,20 +73,20 @@ const BottomSection = styled.div<{ showBackground: boolean }>`
 
 export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) {
   const token0 = stakingInfo.tokens[0]
-  const token1 = stakingInfo.tokens[1]
+ // const token1 = stakingInfo.tokens[1]
 
   const currency0 = unwrappedToken(token0)
-  const currency1 = unwrappedToken(token1)
+ // const currency1 = unwrappedToken(token1)
 
   const isStaking = Boolean(stakingInfo.stakedAmount.greaterThan('0'))
 
   // get the color of the token
-  const token = currency0 === ETHER ? token1 : token0
-  const WETH = currency0 === ETHER ? token0 : token1
+  const token = currency0 === ETHER ? token0 : token0
+  const WETH = currency0 === ETHER ? token0 : token0
   const backgroundColor = useColor(token)
 
   const totalSupplyOfStakingToken = useTotalSupply(stakingInfo.stakedAmount.token)
-  const [, stakingTokenPair] = usePair(...stakingInfo.tokens)
+  const [, stakingTokenPair] = useSinglePair(...stakingInfo.tokens)
 
   // let returnOverMonth: Percent = new Percent('0')
   let valueOfTotalStakedAmountInWETH: TokenAmount | undefined
@@ -98,7 +97,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
       JSBI.divide(
         JSBI.multiply(
           JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WETH).raw),
-          JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
+          JSBI.BigInt(1) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
         ),
         totalSupplyOfStakingToken.raw
       )
@@ -116,12 +115,12 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
       <CardNoise />
 
       <TopSection>
-        <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={24} />
+        <DoubleCurrencyLogo  currency0={currency0} size={24} />
         <TYPE.white fontWeight={600} fontSize={24} style={{ marginLeft: '8px' }}>
-          {currency0.symbol}-{currency1.symbol}
+          ${currency0.symbol}
         </TYPE.white>
 
-        <StyledInternalLink to={`/xETH/${currencyId(currency0)}/${currencyId(currency1)}`} style={{ width: '100%' }}>
+        <StyledInternalLink to={`/COM/${currencyId(currency0)}`} style={{ width: '100%' }}>
           <ButtonPrimary padding="8px" borderRadius="8px">
             {isStaking ? 'Manage' : 'Deposit'}
           </ButtonPrimary>
@@ -141,7 +140,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
           <TYPE.white> Pool rate </TYPE.white>
           <TYPE.white>{`${stakingInfo.totalRewardRate
             ?.multiply(`${60 * 60 * 24 * 7}`)
-            ?.toFixed(0, { groupSeparator: ',' })} xETH / week`}</TYPE.white>
+            ?.toFixed(0, { groupSeparator: ',' })} $COM / week`}</TYPE.white>
         </RowBetween>
       </StatContainer>
 
@@ -159,7 +158,7 @@ export default function PoolCard({ stakingInfo }: { stakingInfo: StakingInfo }) 
               </span>
               {`${stakingInfo.rewardRate
                 ?.multiply(`${60 * 60 * 24 * 7}`)
-                ?.toSignificant(4, { groupSeparator: ',' })} xETH / week`}
+                ?.toSignificant(4, { groupSeparator: ',' })} $COM / week`}
             </TYPE.black>
           </BottomSection>
         </>

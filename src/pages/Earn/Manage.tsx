@@ -25,7 +25,7 @@ import { CountUp } from 'use-count-up'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import { currencyId } from '../../utils/currencyId'
 import { useTotalSupply } from '../../data/TotalSupply'
-import { usePair } from '../../data/Reserves'
+import { useSinglePair } from '../../data/Reserves'
 import usePrevious from '../../hooks/usePrevious'
 import useUSDCPrice from '../../utils/useUSDCPrice'
 import { BIG_INT_ZERO } from '../../constants'
@@ -49,11 +49,10 @@ const BottomSection = styled(AutoColumn)`
 `
 
 const StyledDataCard = styled(DataCard)<{ bgColor?: any; showBackground?: any }>`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #1e1a31 0%, #3d51a5 100%);
+  background: linear-gradient(to bottom, rgba(202,76,191,1) 0%,rgba(133,43,191,1) 100%);
   z-index: 2;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background: ${({ theme, bgColor, showBackground }) =>
-    `radial-gradient(91.85% 100% at 1.84% 0%, ${bgColor} 0%,  ${showBackground ? theme.black : theme.bg5} 100%) `};
+  background:linear-gradient(to bottom, rgba(202,76,191,1) 0%,rgba(133,43,191,1) 100%);
 `
 
 const StyledBottomCard = styled(DataCard)<{ dim: any }>`
@@ -73,7 +72,7 @@ const PoolData = styled(DataCard)`
 `
 
 const VoteCard = styled(DataCard)`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
+  background:linear-gradient(to bottom, rgba(202,76,191,1) 0%,rgba(133,43,191,1) 100%);  
   overflow: hidden;
 `
 
@@ -86,20 +85,20 @@ const DataRow = styled(RowBetween)`
     gap: 12px;
   `};
 `
-
+ 
 export default function Manage({
   match: {
-    params: { currencyIdA, currencyIdB }
+    params: { currencyIdA }
   }
 }: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
   const { account, chainId } = useActiveWeb3React()
 
   // get currencies and pair
-  const [currencyA, currencyB] = [useCurrency(currencyIdA), useCurrency(currencyIdB)]
+  const [currencyA] = [useCurrency(currencyIdA)]
   const tokenA = wrappedCurrency(currencyA ?? undefined, chainId)
-  const tokenB = wrappedCurrency(currencyB ?? undefined, chainId)
+ // const tokenB = wrappedCurrency(currencyB ?? undefined, chainId)
 
-  const [, stakingTokenPair] = usePair(tokenA, tokenB)
+  const [, stakingTokenPair] = useSinglePair(tokenA)
   const stakingInfo = useStakingInfo(stakingTokenPair)?.[0]
 
   // detect existing unstaked LP position to show add button if none found
@@ -114,8 +113,8 @@ export default function Manage({
   // fade cards if nothing staked or nothing earned yet
   const disableTop = !stakingInfo?.stakedAmount || stakingInfo.stakedAmount.equalTo(JSBI.BigInt(0))
 
-  const token = currencyA === ETHER ? tokenB : tokenA
-  const WETH = currencyA === ETHER ? tokenA : tokenB
+  const token = currencyA === ETHER ? tokenA : tokenA
+  const WETH = currencyA === ETHER ? tokenA : tokenA
   const backgroundColor = useColor(token)
 
   // get WETH value of staked LP tokens
@@ -128,7 +127,7 @@ export default function Manage({
       JSBI.divide(
         JSBI.multiply(
           JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserveOf(WETH).raw),
-          JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
+          JSBI.BigInt(1) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
         ),
         totalSupplyOfStakingToken.raw
       )
@@ -157,9 +156,9 @@ export default function Manage({
     <PageWrapper gap="lg" justify="center">
       <RowBetween style={{ gap: '24px' }}>
         <TYPE.mediumHeader style={{ margin: 0 }}>
-          {currencyA?.symbol}-{currencyB?.symbol} Liquidity Mining
+          Community Token Staking Pool
         </TYPE.mediumHeader>
-        <DoubleCurrencyLogo currency0={currencyA ?? undefined} currency1={currencyB ?? undefined} size={24} />
+        <DoubleCurrencyLogo  currency1={currencyA ?? undefined} size={24} />
       </RowBetween>
 
       <DataRow style={{ gap: '24px' }}>
@@ -180,7 +179,7 @@ export default function Manage({
               {stakingInfo?.totalRewardRate
                 ?.multiply((60 * 60 * 24 * 7).toString())
                 ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
-              {' xETH / week'}
+              {' $COM / week'}
             </TYPE.body>
           </AutoColumn>
         </PoolData>
@@ -193,11 +192,11 @@ export default function Manage({
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Step 1. Get xETH-ETH Liquidity tokens</TYPE.white>
+                <TYPE.white fontWeight={600}>Step 1. Get $COM tokens</TYPE.white>
               </RowBetween>
               <RowBetween style={{ marginBottom: '1rem' }}>
                 <TYPE.white fontSize={14}>
-                  {`UNI-V2-xETH-ETH LP tokens are required. Once you've added liquidity to the ${currencyA?.symbol}-${currencyB?.symbol} pool you can stake your liquidity tokens on this page.`}
+                  {`$COM tokens are required. Once you've purchased $COM you can start staking on this page.`}
                 </TYPE.white>
               </RowBetween>
               <ButtonPrimary
@@ -205,9 +204,9 @@ export default function Manage({
                 borderRadius="8px"
                 width={'fit-content'}
                 as={Link}
-                to={`/add/${currencyA && currencyId(currencyA)}/${currencyB && currencyId(currencyB)}`}
+                to={`/add/${currencyA && currencyId(currencyA)}`}
               >
-                {`Add ${currencyA?.symbol}-${currencyB?.symbol} liquidity`}
+                {`Get Community Tokens $COM`}
               </ButtonPrimary>
             </AutoColumn>
           </CardSection>
@@ -245,14 +244,14 @@ export default function Manage({
               <CardNoise />
               <AutoColumn gap="md">
                 <RowBetween>
-                  <TYPE.white fontWeight={600}>Your liquidity deposits</TYPE.white>
+                  <TYPE.white fontWeight={600}>Your staking deposits</TYPE.white>
                 </RowBetween>
                 <RowBetween style={{ alignItems: 'baseline' }}>
                   <TYPE.white fontSize={36} fontWeight={600}>
                     {stakingInfo?.stakedAmount?.toSignificant(6) ?? '-'}
                   </TYPE.white>
                   <TYPE.white>
-                    UNI-V2 {currencyA?.symbol}-{currencyB?.symbol}
+                    $COM
                   </TYPE.white>
                 </RowBetween>
               </AutoColumn>
@@ -264,7 +263,7 @@ export default function Manage({
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>
-                  <TYPE.black color={'black'}>Your Unclaimed xETH</TYPE.black>
+                  <TYPE.black color={'black'}>Your Unclaimed $COM</TYPE.black>
                 </div>
                 {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
                   <ButtonEmpty
@@ -296,7 +295,7 @@ export default function Manage({
                   {stakingInfo?.rewardRate
                     ?.multiply((60 * 60 * 24 * 7).toString())
                     ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
-                  {' xETH / week'}
+                  {' $COM / week'}
                 </TYPE.black>
               </RowBetween>
             </AutoColumn>
@@ -306,15 +305,14 @@ export default function Manage({
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          When you withdraw, the contract will automagically claim xETH on your behalf!
+          When you withdraw, the contract will automagically claim $COM on your behalf!
         </TYPE.main>
 
         {!showAddLiquidityButton && (
           <DataRow style={{ marginBottom: '1rem' }}>
-            <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-              {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit xETH-ETH LP Tokens'}
+            <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick} >
+              {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit $COM Tokens'}
             </ButtonPrimary>
-
             {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
               <>
                 <ButtonPrimary
@@ -330,7 +328,7 @@ export default function Manage({
           </DataRow>
         )}
         {!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : (
-          <TYPE.main>{userLiquidityUnstaked.toSignificant(6)} UNI-V2 LP tokens available</TYPE.main>
+          <TYPE.main>{userLiquidityUnstaked.toSignificant(6)} $COM tokens available</TYPE.main>
         )}
       </PositionInfo>
     </PageWrapper>

@@ -50,19 +50,19 @@ export default function Earn() {
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Xplosive Ethereum liquidity mining</TYPE.white>
+                <TYPE.white fontWeight={600}>Community Token Staking Pool</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  Deposit your Liquidity Provider tokens to receive XETH, the most Xplosive Ethereum token!
+                  Deposit your Community tokens to receive $COM, rewards are first come first serve!
                 </TYPE.white>
               </RowBetween>{' '}
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://medium.com/@xethtoken"
+                href="https://medium.com/@communitytoken"
                 target="_blank"
               >
-                <TYPE.white fontSize={14}>Read more about xETH</TYPE.white>
+                <TYPE.white fontSize={14}>Read more about $COM</TYPE.white>
               </ExternalLink>
             </AutoColumn>
           </CardSection>
@@ -73,7 +73,7 @@ export default function Earn() {
 
       <AutoColumn gap="lg" style={{ width: '100%', maxWidth: '720px' }}>
         <DataRow style={{ alignItems: 'baseline' }}>
-          <TYPE.mediumHeader style={{ marginTop: '0.5rem' }}>Participating pools</TYPE.mediumHeader>
+          <TYPE.mediumHeader style={{ marginTop: '0.5rem' }}>Active staking pools</TYPE.mediumHeader>
           <Countdown exactEnd={stakingInfos?.[0]?.periodFinish} />
         </DataRow>
         <PoolSection>

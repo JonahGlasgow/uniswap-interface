@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
 
-import Logo from '../../assets/svg/logo.svg'
-import LogoDark from '../../assets/svg/logo_white.svg'
+import Logo from '../../assets/images/logo.png'
+import LogoDark from '../../assets/images/logo.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
@@ -191,7 +191,7 @@ const Title = styled.a`
   }
 `
 
-const XplosiveIcon = styled.div`
+const COMIcon = styled.div`
   transition: transform 0.3s ease;
   :hover {
     transform: rotate(-5deg);
@@ -294,12 +294,12 @@ export default function Header() {
       </Modal>
       <HeaderRow>
         <Title href=".">
-          <XplosiveIcon>
+          <COMIcon>
             <img width={'60px'} src={isDark ? LogoDark : Logo} alt="logo" />
-          </XplosiveIcon>
+          </COMIcon>
         </Title>
         <HeaderLinks>
-          <StyledExternalLink id={`home-nav-link`} href={'https://www.xeth.finance/'}>
+          <StyledExternalLink id={`home-nav-link`} href={'https://communitytoken.io/'}>
             {t('Home')}
           </StyledExternalLink>
           <StyledNavLink
@@ -315,11 +315,11 @@ export default function Header() {
           >
             {t('Add Liquidity')}
           </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/xETH'}>
-            xETH LP Staking
+          <StyledNavLink id={`stake-nav-link`} to={'/COM'}>
+            COM Staking
           </StyledNavLink>
-          <StyledExternalLink id={`info-nav-link`} href={'https://info.uniswap.org/pair/0xac0fe6c0b239eedcc12bc3e997e5492b04cc61c3'}>
-            xETH Chart <span style={{ fontSize: '11px' }}>↗</span>
+          <StyledExternalLink id={`info-nav-link`} href={'https://info.uniswap.org/token/0x1b4052d98fb1888c2bf3b8d3b930e0aff8a910df'}>
+            Price Chart <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
         </HeaderLinks>
       </HeaderRow>
